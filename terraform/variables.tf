@@ -1,5 +1,5 @@
 variable "pat_token" {
-  description = "Personal Access Token for authentication"
+  description = "AWS Access Key"
   type        = string
 }
 

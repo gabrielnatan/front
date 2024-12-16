@@ -72,3 +72,4 @@ jobs:
       - name: Terraform Apply
         run: terraform -chdir=terraform apply -var="pat_token=${{ secrets.PAT_TOKEN }}" -var="pat_secret=${{ secrets.PAT_SECRET }}" -auto-approve
 
+
