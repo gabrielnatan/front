@@ -25,36 +25,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Debug PAT
-        run: |
-          if [ -z "${{ secrets.PAT_TOKEN }}" ]; then
-            echo "PAT_TOKEN não está definido"
-          else
-            echo "PAT_TOKEN está definido com $(echo -n "${{ secrets.PAT_TOKEN }}" | wc -c) caracteres"
-          fi
           
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ghcr.io/${{ github.repository }}
-
-      - name: Build and push Docker images
-        id: push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Generate artifact attestation new
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-name: ghcr.io/${{ github.repository }}
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
-          token: ${{ secrets.PAT_TOKEN }}
-
+      - name: Debug PAT
+        run: echo "${{ secrets.PAT_TOKEN }}"
