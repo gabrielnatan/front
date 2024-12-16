@@ -7,6 +7,6 @@ apt-get install -y curl
 sudo apt install docker.io  -y
 sudo apt install podman-docker  -y
 
-echo "${var.pat_token}" | docker login ghcr.io -u gabrielnatan --password-stdin
+echo "${var.github_secret}" | docker login ghcr.io -u gabrielnatan --password-stdin
 docker pull ghcr.io/gabrielnatan/front:main
 docker run -d ghcr.io/gabrielnatan/front:main
