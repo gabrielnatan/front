@@ -10,6 +10,6 @@ variable "pat_secret" {
 
 
 variable "github_secret" {
-  description = "Github Secret Key"
+  description = "New Github Secret Key"
   type        = string
 }
