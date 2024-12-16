@@ -66,9 +66,8 @@ jobs:
         with:
           terraform_version: 1.5.5
 
-      - name: Terraform Init and Apply
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: |
-          terraform init
-          terraform apply -var="pat_token=${{ secrets.PAT_TOKEN }}"
+      - name: Terraform Init
+        run: terraform -chdir=terraform init
+
+      - name: Terraform Apply
+        run: terraform -chdir=terraform apply -var="pat_token=${{ secrets.PAT_TOKEN }}" -auto-approve
