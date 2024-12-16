@@ -60,3 +60,15 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
           github-token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.5
+
+      - name: Terraform Init and Apply
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          terraform init
+          terraform apply -var="pat_token=${{ secrets.PAT_TOKEN }}"
