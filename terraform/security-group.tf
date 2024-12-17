@@ -1,9 +1,19 @@
+# Verifica se o security group "allow_ssh" já existe
+data "aws_security_groups" "existing_allow_ssh" {
+  filter {
+    name   = "group-name"
+    values = ["allow_ssh"]
+  }
+}
+
+# Cria o grupo apenas se ele não existir
 resource "aws_security_group" "allow_ssh" {
+  count       = length(data.aws_security_groups.existing_allow_ssh.ids) == 0 ? 1 : 0
   name        = "allow_ssh"
   description = "Permitir ssh"
 
   ingress {
-    description = "SSh para VPC"
+    description = "SSH para VPC"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -13,19 +23,24 @@ resource "aws_security_group" "allow_ssh" {
   tags = {
     Name = "allow_ssh"
   }
+}
 
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes  = [name]
+# Verifica se o security group "allow_http" já existe
+data "aws_security_groups" "existing_allow_http" {
+  filter {
+    name   = "group-name"
+    values = ["allow_http"]
   }
 }
 
+# Cria o grupo apenas se ele não existir
 resource "aws_security_group" "allow_http" {
+  count       = length(data.aws_security_groups.existing_allow_http.ids) == 0 ? 1 : 0
   name        = "allow_http"
   description = "Permitir http"
 
   ingress {
-    description = "http para VPC"
+    description = "HTTP para VPC"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -37,7 +52,17 @@ resource "aws_security_group" "allow_http" {
   }
 }
 
+# Verifica se o security group "allow_egress" já existe
+data "aws_security_groups" "existing_allow_egress" {
+  filter {
+    name   = "group-name"
+    values = ["allow_egress"]
+  }
+}
+
+# Cria o grupo apenas se ele não existir
 resource "aws_security_group" "allow_egress" {
+  count       = length(data.aws_security_groups.existing_allow_egress.ids) == 0 ? 1 : 0
   name        = "allow_egress"
   description = "Permitir egress"
 
@@ -53,6 +78,3 @@ resource "aws_security_group" "allow_egress" {
     Name = "allow_egress"
   }
 }
-
-
-
