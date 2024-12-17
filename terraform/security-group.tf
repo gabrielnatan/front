@@ -13,6 +13,11 @@ resource "aws_security_group" "allow_ssh" {
   tags = {
     Name = "allow_ssh"
   }
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [name]
+  }
 }
 
 resource "aws_security_group" "allow_http" {
